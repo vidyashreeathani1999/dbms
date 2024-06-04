@@ -468,6 +468,274 @@ private String[] performSearch(String query) {
 }
 
 
+package com.cognizant.bluebolt.gw.errorassist.db;
+
+import com.cognizant.bluebolt.gw.errorassist.app.AppConstants;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.*;
+import java.util.List;
+
+/**
+ * @author Cognizant
+ * @see
+ * @since 12-Mar-24
+ **/
+public class DBManager
+{
+
+    private static final String SEARCH_SQL_HQ = "SELECT * FROM Project WHERE id IN (";
+
+
+    public static ResultSet createConAndExecuteQuery(List<String> rowIDList) throws SQLException {
+
+        Connection connection = DriverManager.getConnection(AppConstants.JDBC_URL);
+        System.out.println("DB connection established: " + connection.getClientInfo());
+
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < rowIDList.size(); i++) {
+            sb.append(i == 0 ? "?" : ", ?");
+        }
+        sb.append(")");
+        String thisSearchQuery = SEARCH_SQL_HQ + sb.toString();
+
+        ResultSet resultSet = null;
+        try (PreparedStatement statement = connection.prepareStatement(thisSearchQuery)) {
+            for (int i = 0; i < rowIDList.size(); i++) {
+                Integer thisID = Integer.valueOf(rowIDList.get(i));
+                statement.setInt(i + 1, thisID);
+            }
+
+            resultSet = statement.executeQuery();
+
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+        return resultSet;
+    }
+
+
+
+    //deprecated
+    public static String getDatabaseUrl(){
+
+        String dbUrl = null;
+
+        // Load SQLite database file from resources directory
+        String databaseName = AppConstants.DB_NAME;
+        InputStream inputStream = DBManager.class.getResourceAsStream("./res/" + databaseName);
+
+        // Retrieve the default Windows temporary directory
+        String tempDirPath = System.getProperty("java.io.tmpdir");
+
+        // Create a File object representing the temporary directory
+        File tempDir = new File(tempDirPath);
+
+        // Copy the database file to a temporary location
+        try {
+            File tempFile = File.createTempFile("temp_", "_" + databaseName, tempDir);
+            tempFile.deleteOnExit();
+
+            try (OutputStream outputStream = new FileOutputStream(tempFile)) {
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, length);
+                }
+            }
+
+            // Establish JDBC connection using the copied database file
+            String url = "jdbc:sqlite:" + tempFile.getAbsolutePath();
+
+        } catch (Exception e) {
+            System.err.println("Error loading database file: " + e.getMessage());
+        }
+
+        return dbUrl;
+    }
+
+}
+
+
+
+
+
+
+
+public class AppConstants {
+
+    public static final String APPLICATION_TITLE = "Guidewire Error Assist";
+
+    public static final String DB_NAME = "gw_error_assist.db";
+    public static final String JDBC_URL = "jdbc:sqlite::resource:gw_error_assist.db";
+    //public static final String IMAGE_URL = "C:\\Users\\2114779\\IdeaProjects\\JavaP\\src\\com\\cognizant\\bluebolt\\gw\\errorassist\\admin\\Cognizantlogo.png";
+}
+
+
+package com.cognizant.bluebolt.gw.errorassist.admin;
+
+//import org.apache.lucene.analysis.standard.StandardAnalyzer;
+/*
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.TextField;
+*/
+
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Cognizant
+ * @see
+ * @since 12-Mar-24
+ **/
+
+/****
+ *
+ *  TO BE USED FOR INITIAL SETUP ONLY. DO NOT ATTEMPT TO RERUN.
+ *
+ */
+
+public class LuceneSearchUtil {
+
+    private static final String DB_URL = "jdbc:sqlite:D:/MyWorks/IdeaWS/GWErrorAssist/res/gw_error_assist.db";
+    private static final String INDEX_DIR = "D:/MyWorks/IdeaWS/GWErrorAssist/res/";
+    private static final String SEARCH_SQL = "SELECT * FROM TABL";
+
+    private static final String INDEX_FIELD_NAME = "content";
+    private static final int MAX_RESULTS = 10;
+
+   // private Directory index;
+   // private IndexWriter indexWriter;
+
+    public LuceneSearchUtil() throws IOException {
+        Path indexPath = FileSystems.getDefault().getPath(INDEX_DIR);
+   //     index = FSDirectory.open(indexPath);
+
+      //  IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
+       // config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+
+      //  indexWriter = new IndexWriter(index, config);
+    }
+
+    public void addDocument(int id, String content) throws IOException {
+    //    Document document = new Document();
+      //  document.add(new TextField("id", String.valueOf(id), Field.Store.YES));
+     //   document.add(new TextField(INDEX_FIELD_NAME, content, Field.Store.YES));
+   //     indexWriter.addDocument(document);
+    }
+
+    public <QueryParser> List<String> search(String queryString) throws Exception {
+        List<String> results = new ArrayList<>();
+       // QueryParser parser = new QueryParser(INDEX_FIELD_NAME, new StandardAnalyzer());
+        // Query query = parser.parse(queryString);
+
+    //  IndexReader indexReader = DirectoryReader.open(index);
+     //  IndexSearcher searcher = new IndexSearcher(indexReader);
+
+      // TopDocs topDocs = searcher.search(query, MAX_RESULTS);
+
+     /*   for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+            Document doc = searcher.doc(scoreDoc.doc);
+            results.add(doc.get(INDEX_FIELD_NAME));
+        }*/
+        return results;
+    }
+
+    public void close() throws IOException {
+   //     indexWriter.close();
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        LuceneSearchUtil luceneSearch = new LuceneSearchUtil();
+
+        // Establishing connection to SQLite database
+        //String url = "jdbc:sqlite:/path/to/your/database.db";
+       // Connection conn = DriverManager.getConnection(DB_URL);
+
+        // Creating Lucene index from SQLite database
+     /*   try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(SEARCH_SQL)) {
+            while (rs.next()) {
+                luceneSearch.addDocument(rs.getInt("id"),rs.getString("Description"));
+            }
+        }
+*/
+        // Committing changes to the Lucene index
+       // luceneSearch.indexWriter.commit();
+
+        // Searching Lucene index
+        List<String> searchResults = luceneSearch.search("TEST search query");
+
+        // Displaying search results
+        for (String result : searchResults) {
+            System.out.println(result);
+        }
+
+        // Closing resources
+        luceneSearch.close();
+        //conn.close();
+    }
+}
+
+package com.cognizant.bluebolt.gw.errorassist.admin;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+/**
+ * @author Cognizant
+ * @see
+ * @since 12-Mar-24
+ **/
+
+/****
+ *
+ *  TO BE USED FOR INITIAL SETUP ONLY. DO NOT ATTEMPT TO RERUN.
+ *
+ */
+public class SqliteUtil {
+
+    static final String DB_URL = "jdbc:sqlite:D:/MyWorks/IdeaWS/GWErrorAssist/res/gw_error_assist.db";
+
+    public static void main(String args[]){
+        createNewDatabase();
+    }
+
+
+    public static void createNewDatabase()
+    {
+        Connection conn = null;
+        try {
+
+            String url = null; //Override the url with DB_URL when running to create a new database
+
+            // create a connection to the database
+            conn = DriverManager.getConnection(url);
+
+            System.out.println("Connection to SQLite has been established.");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+}
 
  
 
