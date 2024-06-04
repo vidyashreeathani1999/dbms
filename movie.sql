@@ -405,33 +405,6 @@ clearButton.setOnAction(e -> {
 
 
 }
-/*
-    private void setupTableView(List<ErrorAssistTO> resultList)
-    {
-        if(resultList != null && resultList.size() > 0) {
-            //For now take only the first row
-            ErrorAssistTO errorAssistTO = resultList.get(0);
-            if (errorAssistTO != null) {
-                LabelValuePair lvp1 = new LabelValuePair("Application", errorAssistTO.applicationName);
-                LabelValuePair lvp2 = new LabelValuePair("Applies To", errorAssistTO.versions);
-                LabelValuePair lvp3 = new LabelValuePair("Error Code", errorAssistTO.errorCode);
-                LabelValuePair lvp4 = new LabelValuePair("Description", errorAssistTO.description);
-                LabelValuePair lvp5 = new LabelValuePair("Cause", errorAssistTO.cause);
-                LabelValuePair lvp6 = new LabelValuePair("Solution", errorAssistTO.solution);
-                LabelValuePair lvp7 = new LabelValuePair("Other Comments", errorAssistTO.otherComments);
-                LabelValuePair lvp8 = new LabelValuePair("Source", errorAssistTO.source);
-                LabelValuePair lvp9 = new LabelValuePair("Last Updated", errorAssistTO.lastUpdated);
-                resultsTableView.getItems().addAll(lvp1, lvp2, lvp3, lvp4, lvp5, lvp6, lvp7, lvp8, lvp9);
-            }
-        }
-        else
-        {
-            System.out.println("I am here");
-            LabelValuePair lvp1 = new LabelValuePair("Application", "TEST_VALUE");
-            resultsTableView.getItems().add(lvp1);
-        }
-
- */
 
 public static void main(String[] args) {
     launch(args);
@@ -496,84 +469,8 @@ private String[] performSearch(String query) {
 
 
 
- /*
-        resultsTableView = new TableView<>();
-        TableColumn<LabelValuePair, String> labelColumn = new TableColumn<>("Label");
-        labelColumn.setCellValueFactory(new PropertyValueFactory<>("label"));
-        TableColumn<LabelValuePair, String> valueColumn = new TableColumn<>("Value");
-        valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
-        resultsTableView.getColumns().addAll(labelColumn, valueColumn);
+ 
 
-        resultsTableView.setFixedCellSize(25);
-
-        gridPane.add(resultsTableView, 0, 3, 3, 1);
-        GridPane.setHalignment(resultsTableView, HPos.CENTER); // Center-align the TableView
-
-
-         */
-
-
-/*
-
-    private void setupTableView(List<ErrorAssistTO> resultList)
-    {
-        if(resultList != null && resultList.size() > 0) {
-            //For now take only the first row
-            ErrorAssistTO errorAssistTO = resultList.get(0);
-            if (errorAssistTO != null) {
-                LabelValuePair lvp1 = new LabelValuePair("Application", errorAssistTO.applicationName);
-                LabelValuePair lvp2 = new LabelValuePair("Applies To", errorAssistTO.versions);
-                LabelValuePair lvp3 = new LabelValuePair("Error Code", errorAssistTO.errorCode);
-                LabelValuePair lvp4 = new LabelValuePair("Description", errorAssistTO.description);
-                LabelValuePair lvp5 = new LabelValuePair("Cause", errorAssistTO.cause);
-                LabelValuePair lvp6 = new LabelValuePair("Solution", errorAssistTO.solution);
-                LabelValuePair lvp7 = new LabelValuePair("Other Comments", errorAssistTO.otherComments);
-                LabelValuePair lvp8 = new LabelValuePair("Source", errorAssistTO.source);
-                LabelValuePair lvp9 = new LabelValuePair("Last Updated", errorAssistTO.lastUpdated);
-                resultsTableView.getItems().addAll(lvp1, lvp2, lvp3, lvp4, lvp5, lvp6, lvp7, lvp8, lvp9);
-            }
-        }
-        else
-        {
-            System.out.println("I am here");
-            LabelValuePair lvp1 = new LabelValuePair("Application", "TEST_VALUE");
-            resultsTableView.getItems().add(lvp1);
-        }
-
-    }
-
-
- */
-
-
-
-/*
-
-
-
-        public class LabelValuePair {
-            private final String label;
-            private final String value;
-
-            public LabelValuePair(String label, String value) {
-                this.label = label;
-                this.value = value;
-            }
-
-            public String getLabel() {
-                return label;
-            }
-
-            public String getValue() {
-                return value;
-            }
-        }
-
-
-    }
-
-
- */
 
 
 
