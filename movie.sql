@@ -302,7 +302,6 @@ SELECT*FROM movies_details;
 
 
 
-package com.cognizant.bluebolt.gw.errorassist.app;
 
 import javafx.application.Application;
 import javafx.geometry.HPos;
@@ -313,11 +312,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/**
- * @author Cognizant
- * @see
- * @since 12-Mar-24
- **/
+
 public class ErrorAssistApplication extends Application {
 
 ListView<String> resultListView = new ListView<>();
@@ -468,9 +463,6 @@ private String[] performSearch(String query) {
 }
 
 
-package com.cognizant.bluebolt.gw.errorassist.db;
-
-import com.cognizant.bluebolt.gw.errorassist.app.AppConstants;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -479,11 +471,7 @@ import java.io.OutputStream;
 import java.sql.*;
 import java.util.List;
 
-/**
- * @author Cognizant
- * @see
- * @since 12-Mar-24
- **/
+
 public class DBManager
 {
 
@@ -575,14 +563,13 @@ public class AppConstants {
 }
 
 
-package com.cognizant.bluebolt.gw.errorassist.admin;
 
-//import org.apache.lucene.analysis.standard.StandardAnalyzer;
-/*
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
-*/
+
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -590,17 +577,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Cognizant
- * @see
- * @since 12-Mar-24
- **/
 
-/****
- *
- *  TO BE USED FOR INITIAL SETUP ONLY. DO NOT ATTEMPT TO RERUN.
- *
- */
 
 public class LuceneSearchUtil {
 
@@ -682,26 +659,14 @@ public class LuceneSearchUtil {
         // Closing resources
         luceneSearch.close();
         //conn.close();
-    }
 }
-
-package com.cognizant.bluebolt.gw.errorassist.admin;
+}
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * @author Cognizant
- * @see
- * @since 12-Mar-24
- **/
 
-/****
- *
- *  TO BE USED FOR INITIAL SETUP ONLY. DO NOT ATTEMPT TO RERUN.
- *
- */
 public class SqliteUtil {
 
     static final String DB_URL = "jdbc:sqlite:D:/MyWorks/IdeaWS/GWErrorAssist/res/gw_error_assist.db";
